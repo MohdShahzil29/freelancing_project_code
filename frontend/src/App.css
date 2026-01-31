@@ -252,6 +252,132 @@ body {
   margin-bottom: 2rem;
 }
 
+/* ===== Promotional Banner ===== */
+.promo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, #BCA182 0%, #D4A574 100%);
+  color: white;
+  padding: 0.75rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.promo-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.promo-text {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.promo-badge {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.promo-message {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 400;
+}
+
+.promo-message strong {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.promo-highlight {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.promo-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-promo {
+  background: white;
+  color: var(--text-primary);
+  border: none;
+  border-radius: 2rem;
+  padding: 0.5rem 1.25rem;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-promo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-promo:active {
+  transform: scale(0.98);
+}
+
+.btn-close-banner {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-close-banner:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* ===== Header ===== */
 .header-nav {
   position: fixed;
@@ -267,6 +393,11 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+}
+
+/* Adjust header position when banner is visible */
+.promo-banner ~ .header-nav {
+  top: 60px;
 }
 
 .nav-content {
@@ -297,7 +428,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 8rem 1.5rem 5rem;
+  padding: 10rem 1.5rem 5rem;
   position: relative;
 }
 
@@ -836,8 +967,39 @@ body {
 
 /* ===== Responsive Design ===== */
 @media (max-width: 767px) {
+  .promo-banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .promo-text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .promo-message {
+    font-size: 0.875rem;
+  }
+
+  .promo-highlight {
+    margin-left: 0;
+    margin-top: 0.25rem;
+    display: inline-block;
+  }
+
+  .promo-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btn-promo {
+    flex: 1;
+  }
+
   .hero-section {
-    padding: 6rem 1rem 3rem;
+    padding: 8rem 1rem 3rem;
     min-height: 85vh;
   }
 

@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 const HotelLanding = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showBanner, setShowBanner] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,6 +60,35 @@ const HotelLanding = () => {
 
   return (
     <div className="hotel-landing">
+      {/* Promotional Banner */}
+      {showBanner && (
+        <div className="promo-banner">
+          <div className="container">
+            <div className="promo-banner-content">
+              <div className="promo-text">
+                <span className="promo-badge">LIMITED OFFER</span>
+                <p className="promo-message">
+                  Book your stay this month and get <strong>10% OFF</strong> on all room categories! 
+                  <span className="promo-highlight"> Use code: BALAJI10</span>
+                </p>
+              </div>
+              <div className="promo-actions">
+                <button onClick={handleWhatsAppBooking} className="btn-promo">
+                  Book Now
+                </button>
+                <button 
+                  onClick={() => setShowBanner(false)} 
+                  className="btn-close-banner"
+                  aria-label="Close banner"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="header-nav">
         <div className="container">
