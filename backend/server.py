@@ -66,6 +66,26 @@ async def get_status_checks():
     
     return status_checks
 
+from pydantic import BaseModel
+from utils.email import send_booking_email
+
+class BookingEnquiry(BaseModel):
+    name: str
+    email: str
+    contact: str
+    checkIn: str
+    checkOut: str
+    address: str
+    aadhaar: str
+
+
+@api_router.post("/booking")
+async def booking_enquiry(data: BookingEnquiry):
+    send_booking_email(data.dict())
+    return {"message": "Booking enquiry sent successfully"}
+
+
+
 # Include the router in the main app
 app.include_router(api_router)
 

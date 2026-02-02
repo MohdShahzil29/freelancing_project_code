@@ -1,49 +1,157 @@
-import React, { useState } from 'react';
-import { 
-  Phone, Mail, MapPin, Clock, Check, X, Star, 
-  Wifi, Coffee, Car, Shield, Zap, Home, Instagram, Facebook, MessageCircle,
-  ChevronLeft, ChevronRight, User, Calendar, Hash
-} from 'lucide-react';
-import { hotelInfo, roomCategories, guestReviews, idPolicy, nearbyAttractions, amenities } from '../mockData';
-import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Check,
+  X,
+  Star,
+  Wifi,
+  Coffee,
+  Car,
+  Shield,
+  Zap,
+  Home,
+  Instagram,
+  Facebook,
+  MessageCircle,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  Calendar,
+  Hash,
+} from "lucide-react";
+import {
+  hotelInfo,
+  roomCategories,
+  guestReviews,
+  idPolicy,
+  nearbyAttractions,
+  amenities,
+} from "../mockData";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { toast } from "sonner";
+
+// imgge import
+
+import t1 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.45 AM.jpeg";
+import t2 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.45 AM (1).jpeg";
+
+import t3 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.46 AM.jpeg";
+
+import t4 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.47 AM.jpeg";
+import t5 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.47 AM (1).jpeg";
+
+import t6 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.48 AM.jpeg";
+import t7 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.48 AM (1).jpeg";
+
+import t8 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.49 AM.jpeg";
+import t9 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.49 AM (1).jpeg";
+import t10 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.49 AM (2).jpeg";
+
+import t11 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.50 AM.jpeg";
+
+import t12 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.51 AM.jpeg";
+import t13 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.51 AM (1).jpeg";
+
+import t14 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.52 AM.jpeg";
+
+import t15 from "../assets/testimonial/WhatsApp Image 2026-02-02 at 10.13.56 AM.jpeg";
+
+import logoImage from "@/assets/logo.jpeg";
 
 const HotelLanding = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showBanner, setShowBanner] = useState(true);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    checkIn: '',
-    checkOut: '',
-    contact: '',
-    address: '',
-    aadhaar: ''
+    name: "",
+    email: "",
+    checkIn: "",
+    checkOut: "",
+    contact: "",
+    address: "",
+    aadhaar: "",
   });
 
-  const galleryImages = roomCategories.map(room => room.image);
+  // const galleryImages = roomCategories.map((room) => room.image);
+  const galleryImages = [
+    t1,
+    t2,
+    t3,
+    t4,
+    t5,
+    t6,
+    t7,
+    t8,
+    t9,
+    t10,
+    t11,
+    t12,
+    t13,
+    t14,
+    t15,
+  ];
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Mock form submission
+  //   console.log("Booking request:", formData);
+  //   toast.success("Booking request submitted! We will contact you shortly.");
+  //   setFormData({
+  //     name: "",
+  //     email: "",
+  //     checkIn: "",
+  //     checkOut: "",
+  //     contact: "",
+  //     address: "",
+  //     aadhaar: "",
+  //   });
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock form submission
-    console.log('Booking request:', formData);
-    toast.success('Booking request submitted! We will contact you shortly.');
-    setFormData({
-      name: '',
-      email: '',
-      checkIn: '',
-      checkOut: '',
-      contact: '',
-      address: '',
-      aadhaar: ''
-    });
+
+    try {
+      const res = await fetch(
+        "https://freelancing-project-code.onrender.com/api/booking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        },
+      );
+
+      if (!res.ok) throw new Error("Failed");
+
+      toast.success("Booking enquiry sent successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        checkIn: "",
+        checkOut: "",
+        contact: "",
+        address: "",
+        aadhaar: "",
+      });
+    } catch (err) {
+      toast.error("Failed to send booking enquiry");
+    }
   };
 
   const nextImage = () => {
@@ -51,11 +159,13 @@ const HotelLanding = () => {
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + galleryImages.length) % galleryImages.length,
+    );
   };
 
   const handleWhatsAppBooking = () => {
-    window.open(hotelInfo.whatsapp, '_blank');
+    window.open(hotelInfo.whatsapp, "_blank");
   };
 
   return (
@@ -68,7 +178,8 @@ const HotelLanding = () => {
               <div className="promo-text">
                 <span className="promo-badge">LIMITED OFFER</span>
                 <p className="promo-message">
-                  Book your stay this month and get <strong>10% OFF</strong> on all room categories! 
+                  Book your stay this month and get <strong>10% OFF</strong> on
+                  all room categories!
                   <span className="promo-highlight"> Use code: BALAJI10</span>
                 </p>
               </div>
@@ -76,8 +187,8 @@ const HotelLanding = () => {
                 <button onClick={handleWhatsAppBooking} className="btn-promo">
                   Book Now
                 </button>
-                <button 
-                  onClick={() => setShowBanner(false)} 
+                <button
+                  onClick={() => setShowBanner(false)}
                   className="btn-close-banner"
                   aria-label="Close banner"
                 >
@@ -90,17 +201,67 @@ const HotelLanding = () => {
       )}
 
       {/* Header */}
-      <header className="header-nav">
+      {/* <header className="header-nav">
         <div className="container">
           <div className="nav-content">
             <h1 className="logo-text">HOTEL BALAJI LODGING</h1>
             <div className="nav-actions">
-              <a href={hotelInfo.instagram} target="_blank" rel="noopener noreferrer" className="btn-nav">
+              <a
+                href={hotelInfo.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-nav"
+              >
                 <Instagram size={18} />
               </a>
-              <a href={hotelInfo.facebook} target="_blank" rel="noopener noreferrer" className="btn-nav">
+              <a
+                href={hotelInfo.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-nav"
+              >
                 <Facebook size={18} />
               </a>
+              <a href={`tel:${hotelInfo.phone[0]}`} className="btn-secondary">
+                <Phone size={16} />
+                <span>Call Now</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </header> */}
+
+      <header className="header-nav">
+        <div className="container">
+          <div className="nav-content">
+            <img
+              src={logoImage}
+              alt="Hotel Balaji Lodging Logo"
+              width={70}
+              height={20}
+              className="logo-image"
+              priority
+            />
+
+            <div className="nav-actions">
+              <a
+                href={hotelInfo.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-nav"
+              >
+                <Instagram size={18} />
+              </a>
+
+              <a
+                href={hotelInfo.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-nav"
+              >
+                <Facebook size={18} />
+              </a>
+
               <a href={`tel:${hotelInfo.phone[0]}`} className="btn-secondary">
                 <Phone size={16} />
                 <span>Call Now</span>
@@ -119,7 +280,8 @@ const HotelLanding = () => {
           </div>
           <h1 className="heading-hero">Your Comfortable Stay in Shirpur</h1>
           <p className="hero-subtitle body-large">
-            Budget-friendly accommodation with clean rooms, peaceful environment, and courteous service
+            Budget-friendly accommodation with clean rooms, peaceful
+            environment, and courteous service
           </p>
           <div className="hero-cta">
             <button onClick={handleWhatsAppBooking} className="btn-primary">
@@ -152,10 +314,15 @@ const HotelLanding = () => {
           </div>
           <div className="about-content">
             <p className="body-medium">
-              Our lodging is ideal for business travelers, families, and individual guests who are looking for a safe and convenient place to stay. With easy accessibility and essential amenities, we ensure a hassle-free experience throughout your visit.
+              Our lodging is ideal for business travelers, families, and
+              individual guests who are looking for a safe and convenient place
+              to stay. With easy accessibility and essential amenities, we
+              ensure a hassle-free experience throughout your visit.
             </p>
             <p className="body-medium">
-              At Hotel Balaji Lodging, guest comfort and safety are our top priorities. We maintain hygiene standards and a friendly atmosphere so you can feel at home away from home.
+              At Hotel Balaji Lodging, guest comfort and safety are our top
+              priorities. We maintain hygiene standards and a friendly
+              atmosphere so you can feel at home away from home.
             </p>
           </div>
         </div>
@@ -207,7 +374,10 @@ const HotelLanding = () => {
                       </li>
                     ))}
                   </ul>
-                  <button onClick={handleWhatsAppBooking} className="btn-primary btn-full">
+                  <button
+                    onClick={handleWhatsAppBooking}
+                    className="btn-primary btn-full"
+                  >
                     Book This Room
                   </button>
                 </CardContent>
@@ -222,17 +392,23 @@ const HotelLanding = () => {
         <div className="container">
           <h2 className="heading-1 text-center">Photo Gallery</h2>
           <div className="gallery-container">
-            <button onClick={prevImage} className="gallery-btn gallery-btn-prev">
+            <button
+              onClick={prevImage}
+              className="gallery-btn gallery-btn-prev"
+            >
               <ChevronLeft size={24} />
             </button>
             <div className="gallery-image-container">
-              <img 
-                src={galleryImages[currentImageIndex]} 
+              <img
+                src={galleryImages[currentImageIndex]}
                 alt={`Hotel room ${currentImageIndex + 1}`}
                 className="gallery-image"
               />
             </div>
-            <button onClick={nextImage} className="gallery-btn gallery-btn-next">
+            <button
+              onClick={nextImage}
+              className="gallery-btn gallery-btn-next"
+            >
               <ChevronRight size={24} />
             </button>
           </div>
@@ -241,7 +417,7 @@ const HotelLanding = () => {
               <button
                 key={idx}
                 onClick={() => setCurrentImageIndex(idx)}
-                className={`gallery-dot ${idx === currentImageIndex ? 'active' : ''}`}
+                className={`gallery-dot ${idx === currentImageIndex ? "active" : ""}`}
               />
             ))}
           </div>
@@ -325,7 +501,9 @@ const HotelLanding = () => {
             <Card className="contact-form-card">
               <CardHeader>
                 <CardTitle className="heading-2">Booking Enquiry</CardTitle>
-                <CardDescription>Please provide your details for booking</CardDescription>
+                <CardDescription>
+                  Please provide your details for booking
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="contact-form">
@@ -416,7 +594,9 @@ const HotelLanding = () => {
             <div className="contact-info-container">
               <Card className="contact-info-card">
                 <CardHeader>
-                  <CardTitle className="heading-2">Contact Information</CardTitle>
+                  <CardTitle className="heading-2">
+                    Contact Information
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="contact-info-content">
                   <div className="contact-info-item">
@@ -424,7 +604,11 @@ const HotelLanding = () => {
                     <div>
                       <p className="body-small text-muted">Call Us</p>
                       {hotelInfo.phone.map((phone, idx) => (
-                        <a key={idx} href={`tel:${phone}`} className="body-medium contact-link">
+                        <a
+                          key={idx}
+                          href={`tel:${phone}`}
+                          className="body-medium contact-link"
+                        >
                           {phone}
                         </a>
                       ))}
@@ -434,7 +618,10 @@ const HotelLanding = () => {
                     <Mail size={20} />
                     <div>
                       <p className="body-small text-muted">Email</p>
-                      <a href={`mailto:${hotelInfo.email}`} className="body-medium contact-link">
+                      <a
+                        href={`mailto:${hotelInfo.email}`}
+                        className="body-medium contact-link"
+                      >
                         {hotelInfo.email}
                       </a>
                     </div>
@@ -459,12 +646,53 @@ const HotelLanding = () => {
                       <li key={idx} className="body-small">
                         <MapPin size={14} />
                         <span>{place.name}</span>
-                        <span className="nearby-distance">{place.distance}</span>
+                        <span className="nearby-distance">
+                          {place.distance}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location Section */}
+      <section className="location-section section-padding bg-section">
+        <div className="container">
+          <h2 className="heading-1 text-center">Our Location</h2>
+          <p className="body-medium text-center text-secondary section-subtitle">
+            Easily find us on Google Maps
+          </p>
+
+          <div className="location-wrapper">
+            {/* Map */}
+            <div className="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3716.468032319766!2d74.8947661!3d21.332026499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdf2d007bb8f165%3A0xfc19133ffca6373d!2sHotel%20Balaji%20Lodging!5e0!3m2!1sen!2sin!4v1770019396916!5m2!1sen!2sin"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Hotel Balaji Lodging Location"
+              ></iframe>
+            </div>
+
+            {/* Get Direction Button */}
+            <div className="location-actions text-center mt-6">
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Hotel+Balaji+Lodging+Shirpur"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                <MapPin size={18} />
+                <span>Get Directions</span>
+              </a>
             </div>
           </div>
         </div>
@@ -478,13 +706,28 @@ const HotelLanding = () => {
               <h3 className="heading-3">Hotel Balaji Lodging</h3>
               <p className="body-small">{hotelInfo.tagline}</p>
               <div className="footer-social">
-                <a href={hotelInfo.instagram} target="_blank" rel="noopener noreferrer" className="social-link">
+                <a
+                  href={hotelInfo.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
                   <Instagram size={20} />
                 </a>
-                <a href={hotelInfo.whatsapp} target="_blank" rel="noopener noreferrer" className="social-link">
+                <a
+                  href={hotelInfo.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
                   <MessageCircle size={20} />
                 </a>
-                <a href={hotelInfo.facebook} target="_blank" rel="noopener noreferrer" className="social-link">
+                <a
+                  href={hotelInfo.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
                   <Facebook size={20} />
                 </a>
               </div>
@@ -507,8 +750,24 @@ const HotelLanding = () => {
               <p className="body-small">{hotelInfo.address}</p>
             </div>
           </div>
+          {/* <div className="footer-bottom">
+            <p className="caption">
+              © 2025 Hotel Balaji Lodging. All rights reserved.
+            </p>
+          </div> */}
           <div className="footer-bottom">
-            <p className="caption">© 2025 Hotel Balaji Lodging. All rights reserved.</p>
+            <p className="caption">
+              © 2025 Hotel Balaji Lodging. All rights reserved. <br />
+              Developed & Designed by{" "}
+              <a
+                href="https://wingstarnarketing.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-credit"
+              >
+                Star Marketing
+              </a>
+            </p>
           </div>
         </div>
       </footer>
